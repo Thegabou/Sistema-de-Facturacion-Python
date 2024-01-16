@@ -1,0 +1,87 @@
+# -*- mode: python ; coding: utf-8 -*-
+from kivy_deps import sdl2, glew
+
+block_cipher = None
+
+
+a = Analysis(
+    ['C:\\Users\\GABRIEL\\Desktop\\python class\\Proyecto Manhattan\\loggin.py'],
+    pathex=[],
+    binaries=[],
+    datas=[],
+    hiddenimports=[
+        'tkinter',
+        'PIL',
+        'PIL.ImageTk',
+        'tkinter.messagebox',
+        'FirebaseManager',
+        'firebase_admin',
+        'firebase_admin.credentials',
+        'firebase_admin.db',
+        'smtplib',
+        'email.mime.text',
+        'email.mime.multipart',
+        'email.mime.application',
+        'reportlab.lib.pagesizes',
+        'reportlab.lib.colors',
+        'reportlab.platypus',
+        'reportlab.platypus.SimpleDocTemplate',
+        'reportlab.platypus.Table',
+        'reportlab.platypus.TableStyle',
+        'reportlab.platypus.Paragraph',
+        'reportlab.platypus.Spacer',
+        'reportlab.lib.styles',
+        'kivy',
+        'kivy.core.window',
+        'kivy.uix.boxlayout',
+        'kivy.uix.recycleview',
+        'kivy.uix.recycleview.views',
+        'kivy.uix.label',
+        'kivy.properties',
+        'kivy.uix.recycleboxlayout',
+        'kivy.uix.behaviors',
+        'kivy.uix.recycleview.layout',
+        'kivy.uix.popup',
+        'FirebaseManager',
+        'mail_factous'
+    ],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=block_cipher,
+    noarchive=False,
+)
+pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    [],
+    exclude_binaries=True,
+    name='QuickFuck',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    console=True,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+)
+coll = COLLECT(
+    exe,
+    Tree('C:\\Users\\GABRIEL\\Desktop\\python class\\Proyecto Manhattan\\'),
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    *[Tree(p) for p in (sdl2.dep_bins + glew.dep_bins)],
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='QuickFuck',
+)

@@ -1,0 +1,517 @@
+#:import hex kivy.utils.get_color_from_hex
+<BotonNig@Button>
+	backgrond_color: hex("#000000")
+<LabelNig@Label>
+	canvas.before:
+		Color:
+			rgba: hex('#4F4A51')
+		Rectangle:
+			size: self.size
+			pos: self.pos
+<SelectableBox>:
+    canvas.before:
+        Color:
+            rgba: hex('#ACD4FF') if self.selected else hex('#F0F0F0')
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	Label:
+		id: num
+		size_hint_x: .1
+		color: (0,0,0,1)
+	Label:
+		id: nomb
+		size_hint_x: .6
+		color: (0,0,0,1)
+	Label:
+		id: cantidad
+		size_hint_x: .1
+		color: (0,0,0,1)
+	Label:
+		id: p_u
+		size_hint_x: .1
+		color: (0,0,0,1)
+	Label:
+		id: p_t
+		size_hint_x: .1
+		color: (0,0,0,1)
+<Nombrepoppup>:
+	size_hint: .55,.55
+	title: 'Productos'
+	BoxLayout:
+		orientation: 'vertical'
+		BoxLayout:
+			orientation: 'vertical'
+			size_hint_y: .8
+			BoxLayout:
+				size_hint_y: .1
+				Label:
+					text: 'Codigo'
+					size_hint_x: .25
+				Label:
+					text: 'Nombre'
+					size_hint_x: .5
+				Label:
+					text: 'Cantidad'
+					size_hint_x: .1
+				Label:
+					text: 'Precio'
+					size_hint_x: .15
+			RV:
+				viewclass: 'SelectableBoxPopup'
+				id: rvf
+		BoxLayout:
+			size_hint_y: .2
+			Button:
+				text: 'Seleccionar'
+				on_release: root.seleccionar()
+			Button:
+				text: 'Salir'
+				on_release: root.dismiss()
+<SelectableBoxPopup>:
+	canvas.before:
+		Color:
+			rgba: hex("#F2FFAC") if self.selected else hex("#393939")
+		Rectangle:
+			size: self.size
+			pos: self.pos
+	Label:
+		id: codigo_
+		size_hint_x: .25
+	Label:
+		id: articulo_
+		size_hint_x: .5
+	Label:
+		id: cantidad_
+		size_hint_x: .1
+	Label:
+		id: precio_
+		size_hint_x: .15
+<Cambiar_cantidad>:
+	size_hint: .5, .5
+	title: 'Modificacion'
+	auto_dismiss: False
+	BoxLayout:
+		orientation:'vertical'
+		BoxLayout:
+			Label:
+				id: new_cant_1
+			Label:
+				id: new_cant_2
+		Label:
+			id: no_valido
+		TextInput:
+			id: new_cant
+			multiline: False
+			hint_text: 'Nueva Cantidad'
+		Button:
+			id: new_cant_bot
+			text: 'Aceptar'
+			on_release: root.validar_input(root.ids.new_cant.text)
+		Button:
+			text: 'Salir'
+			on_press: root.dismiss()
+
+<Pagarpopup>:
+	size_hint: .9, .9
+	title: 'Facturacion'
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: .3
+		padding: .3
+		BoxLayout:
+			size_hint_y: .12
+			spacing: .6
+			Label:
+				text: 'C.I. cliente: '
+				size_hint_x: .5
+			TextInput:
+				id: busacar_ci
+				hint_text: ''
+				size_hint_x: .5
+				multiline: False
+				on_text_validate: root.cargar_cliente()
+			Label:
+				text: ''
+				size_hint_x: .15
+			GridLayout:
+				size_hint_x: .25
+				rows:2
+				Button:
+					text:'Agregar nuevo cliente'
+					size_hint_x: .5
+					id: crear_user_bt
+					spacing: .5
+					on_press: root.crear_user()
+				Button:
+					text:'Consumidor Final'
+					size_hint_x: .5
+					spacing: .5
+					on_press: root.consumidor_user()
+		BoxLayout:
+			size_hint_y: .12
+			Label:
+				text: 'Nombre cliente: '
+				size_hint_x: .5
+			Label:
+				id: nombre_lb
+				size_hint_x: .5
+				hint_text: ''
+		BoxLayout:
+			size_hint_y: .12
+			Label:
+				text: 'Ruc/C.I.: '
+				size_hint_x: .5
+			Label:
+				id: ruc_cliente
+				size_hint_x: .5
+				hint_text: ''
+		BoxLayout:
+			size_hint_y: .12
+			Label:
+				text: 'Correo Electronico: '
+				size_hint_x: .5
+			Label:
+				id: correo_cliente
+				size_hint_x: .5
+				hint_text: ''
+		BoxLayout:
+			size_hint_y: .12
+			Label:
+				text: 'Direccion: '
+				size_hint_x: .5
+			Label:
+				id: Direccion_cliente
+				size_hint_x: .5
+				hint_text: ''
+		BoxLayout:
+			size_hint_y: .12
+			Label:
+				text:'Total a pagar: '
+				size_hint_x: .5
+			Label:
+				id: total_lb
+				size_hint_x: .5
+		BoxLayout:
+			size_hint_y: .12
+			Label:
+				size_hint_x: .5
+				text:'Recibido: '
+			BoxLayout:
+				size_hint_x:.5
+				orientation:'vertical'
+				TextInput:
+					id: recibido_txi
+					hint_text:'Cantidad Recibida'
+					multiline: False
+					on_text_validate: root.mostrar_cambio()
+				Button:
+					text:'Aceptar'
+					on_release: root.mostrar_cambio()
+		BoxLayout:
+			size_hint_y: .12
+			Label:
+				size_hint_x: .5
+				text:'Cambio'
+			Label:
+				size_hint_x: .5
+				id: cambio_lb
+		BoxLayout:
+			size_hint_y: .12
+			Button:
+				id: pagar_bt
+				disabled: True
+				text:'Terminar Pago'
+				on_release: root.terminar_pago()
+			Button:
+				text:'Cancelar'
+				on_release: root.dismiss()
+
+<Nuevacomprapoup>:
+	size_hint: .3,.3
+	title:'Nueva Compra'
+	BoxLayout:
+		orientation:'vertical'
+		Label:
+			text:'¿Desea reailizar una nueva compra?'
+		BoxLayout:
+			Button:
+				id: simon
+				text:'Si'
+				on_release: root.NewShop(True)
+			Button:
+				text:'No'
+				on_press: root.dismiss()
+
+<InventarioPoup>:
+	size_hint: .9, .9
+	title:'Inventario'
+	BoxLayout:
+		orientation:'vertical'
+		spacing: .3
+		padding: .3
+		BoxLayout:
+			size_hint_y: .25
+			Label:
+				text:'Codigo del producto:'
+				size_hint_x: .5
+			TextInput:
+				hint_text:'786471147896'
+				id: codigo_p
+				size_hint_x: .5
+		BoxLayout:
+			size_hint_y: .25
+			Label:
+				text:'Nombre del Producto:'
+				size_hint_x: .5
+			TextInput:
+				hint_text:'Doritos'
+				id: nombre_p
+				size_hint_x: .5
+		BoxLayout:
+			size_hint_y: .25
+			Label:
+				text:'Cantidad:'
+				size_hint_x: .5
+			TextInput:
+				id: cantidad_p
+				size_hint_x: .5
+		BoxLayout:
+			size_hint_y: .25
+			Label:
+				text:'Precio:'
+				size_hint_x: .5
+			TextInput:
+				id: precio_p
+				size_hint_x: .5
+		BoxLayout:
+			Button:
+				text:'Ingresar'
+				size_hint_y: .25
+				multiline: False
+				on_press: root.registrar_producto_db()
+			Button:
+				text:'Salir'
+				size_hint_y: .25
+				on_press: root.dismiss()
+<Crear_user_pop>:
+	size_hint: .7, .7
+	title: 'Registro Usuario'
+	BoxLayout:
+		orientation: 'vertical'
+		BoxLayout:
+			size_hint_y: .25
+			Label:
+				text:'Nombre:'
+				size_hint_x: .25
+			TextInput:
+				id: nombre_cliente
+				multiline:False
+				size_hint_x: .25
+		BoxLayout:
+			size_hint_y: .25
+			Label:
+				text:'Cedula/RUC:'
+				size_hint_x: .25
+			TextInput:
+				id: ruc_cliente
+				multiline:False
+				size_hint_x: .25
+		BoxLayout:
+			size_hint_y: .25
+			Label:
+				text:'Correo Electronico:'
+				size_hint_x: .25
+			TextInput:
+				id: correo_cliente
+				multiline:False
+				size_hint_x: .25
+		BoxLayout:
+			size_hint_y: .25
+			Label:
+				text: 'Direccion:'
+				size_hint_x: .25
+			TextInput:
+				id: direccion_cliente_tx
+				multiline:False
+				size_hint_x: .25
+		BoxLayout:
+			size_hint_y: .25
+			Button:
+				text: 'Registrar'
+				id: registro_cliente
+				on_press: root.registrar_cliente_db()
+			Button:
+				text: 'Cancelar'
+				on_press: root.dismiss()
+
+<RV>:
+    SelectableRecycleBoxLayout:
+        default_size: None, dp(30)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'vertical'
+        multiselect: False
+        touch_multiselect: False
+<VentasWindow>:
+	orientation: 'vertical'
+	canvas.before:
+		Color:
+			rgba: hex('#27DEBA')
+		Rectangle:
+			size: self.size
+			pos: self.pos
+    BoxLayout:
+		size_hint_y: .1
+		spacing: .5
+		Label:
+			id: welcom_label
+			size_hint_x: .25
+			text: 'Bienvenido:'
+			color: hex('#000000')
+		GridLayout:
+			size_hint_x: .25
+			rows: 2
+			cols: 2
+			Label:
+				text:'Fecha: '
+				color: hex('#000000')
+			Label:
+				id: fecha
+				color: hex("#000000")
+			Label:
+				text:'Hora: '
+				color: hex("#000000")
+			Label:
+				id: hora
+				color: hex("#000000")
+		Label:
+			size_hint_x: .2
+		BotonNig:
+			id: exit
+			size_hint_x: .15
+			text:'Salir'
+			on_release: root.Salir()
+		BotonNig:
+			id: inv
+			size_hint_x: .15
+			text: 'Inventario'
+			on_release: root.Inventario()
+	BoxLayout:
+		canvas.before:
+			Color:
+				rgba: hex('#FFFFFF')
+			Rectangle:
+				size: self.size
+				pos: self.pos
+		size_hint_y: .85
+		BoxLayout:
+			size_hint_x: .7
+			orientation: 'vertical'
+			spacing: .5
+			GridLayout:
+				spacing: .5
+				size_hint_y: 0.1
+				rows: 2
+				cols: 2
+				LabelNig:
+					text: 'Buscar por codigo: '
+				LabelNig:
+					text:'Buscar por nombre: '
+				TextInput:
+					id: codex
+					multiline: False 
+					on_text_validate: root.codex_prod(self.text)
+				TextInput:
+					id: name_p
+					multiline: False
+					on_text_validate: root.name_prod(self.text)
+			BoxLayout:
+				size_hint_y: .8
+				orientation: 'vertical'
+				BoxLayout:
+					size_hint_y: .05
+					spacing: .5
+					LabelNig:
+						text: 'N°'
+						size_hint_x: .1
+					LabelNig:
+						text: 'Articulo'
+						size_hint_x: .6
+					LabelNig:
+						text: 'Cantidad'
+						size_hint_x: .1
+					LabelNig:
+						text: 'Precio U.'
+						size_hint_x: .1
+					LabelNig:
+						text: 'Precio T.'
+						size_hint_x: .1
+				RV:
+					viewclass: 'SelectableBox'
+					id: rvd		
+			BoxLayout:
+				size_hint_y: .1
+				spacing: .5
+				BotonNig:
+					text: 'Borrar producto/s'
+					on_release: root.deletd()
+				BotonNig:
+					text: 'Cambiar cantidad'
+					on_release: root.change()
+		BoxLayout:
+			size_hint_x: .3
+			orientation: 'vertical'
+			canvas.before:
+				Color:
+					rgba: hex('#D4E9F4')
+				Rectangle:
+					size: self.size
+					pos: self.pos
+			GridLayout:
+				canvas.before:
+					Color:
+						rgba: hex('#323232')
+					Rectangle:
+						size: self.size
+						pos: self.pos
+				size_hint_y: .15
+				rows: 2
+				cols: 2
+				Label:
+					text: 'Subtotal'
+				Label:
+					id: sub_T
+					text: '0.00'
+				Label:
+					text:'Total'
+				Label:
+					id: Totalpro
+					text: '0.00'
+			BoxLayout:
+				size_hint_y: .6
+				orientation: 'vertical'
+				spacing: .5
+				Label:
+					size_hint_y: .25
+					id: error
+					color: hex('#FF0000')
+				Label:
+					size_hint_y: .25
+					id: exito
+					color: hex('#00FF46')
+				BotonNig:
+					size_hint_y: .20
+					id: Pay
+					text: 'Pagar'
+					on_release: root.Pay()
+				BotonNig:
+					size_hint_y: .20
+					id: new_compra
+					text: 'Nueva Compra'
+					on_release: root.NewShop()
+	BoxLayout:
+		size_hint_y: .03
+		Label:
+			text: 'pepepolla'
